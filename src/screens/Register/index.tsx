@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, Keyboard, TouchableWithoutFeedback } from 'react-native';
 
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { StackActions, useNavigation, useRoute } from '@react-navigation/native';
 import { Button, Center, Icon, Spinner, Stack, View } from 'native-base';
@@ -8,13 +9,11 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { InputForm } from '../../components/Form/InputForm';
 import { Loading } from '../../components/Loading';
+import { RegisterScreamRouteProps } from '../../global/navigation';
 import { apiService } from '../../services/api';
 import {
-  TextButton,
-  Text,
+  Text, TextButton
 } from './styles';
-import { RegisterScreamRouteProps } from '../../global/navigation';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 interface Form {
   [index: string]: string | number;

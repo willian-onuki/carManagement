@@ -7,7 +7,7 @@ import theme from '../../../global/theme';
 interface Props extends TextInputProps {
   name: string;
   control: Control;
-  errors: string | undefined;
+  errors?: string;
 }
 
 
@@ -15,7 +15,6 @@ export function InputForm({
   name,
   control,
   errors,
-  maskCurrency,
   ...rest
 }: Props) {
   return (

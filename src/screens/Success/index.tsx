@@ -1,9 +1,9 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Image, View, Text } from 'native-base';
+import { View } from 'native-base';
 import React from 'react';
-import { Button, TextButton, ImageWrapper, Content, Title, SubTitle, TextWrapper, Header, Icon } from './styles';
-import UnionSvg from '../../assets/Union.svg'
+import UnionSvg from '../../assets/Union.svg';
 import { SuccessScreamRouteProps } from '../../global/navigation';
+import { Button, Content, Header, Icon, ImageWrapper, SubTitle, TextButton, TextWrapper, Title } from './styles';
 
 export function Success() {
   const navigation = useNavigation();

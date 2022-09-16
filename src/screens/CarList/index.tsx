@@ -1,22 +1,30 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Center, Fab, Icon, Image, Input, View, } from 'native-base';
-import { EmptyText, EmptyIcon } from './styles'
-import { FlatList } from 'react-native';
-import { apiService } from '../../services/api';
-import { CarCard, CarData } from '../../components/CarCard';
-import { Loading } from '../../components/Loading';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import AntDesign from '@expo/vector-icons/build/AntDesign';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { Button, Center, Fab, Icon, Input, View } from 'native-base';
+import React, { useCallback, useState } from 'react';
+import { FlatList } from 'react-native';
+import { Loading } from '../../components/Loading';
+import { CarListNavigationProps } from '../../global/navigation';
 import theme from '../../global/theme';
+import { apiService } from '../../services/api';
+import { adjustCurrency } from '../../utils/adjustCurrency';
+import { Age, Amount, Brand, ButtonCard, DataSheet, EmptyIcon, EmptyText, TextAmount, Title } from './styles';
 
+interface CarData {
+  id: string;
+  title: string;
+  brand: string;
+  price: string;
+  age: number;
+}
 
 export function CarList() {
-  const navigation = useNavigation()
+  const navigation = useNavigation<CarListNavigationProps>()
   const [loading, setLoading] = useState(false);
   const [cars, setCars] = useState<CarData[]>([])
   const [text, setText] = useState("");
 
-  async function loadData() {
+  const loadData = useCallback(async () => {
     setLoading(true);
     try {
       const { data } = await apiService.get('/cars');
@@ -26,7 +34,7 @@ export function CarList() {
     } finally {
       setLoading(false);
     }
-  }
+  },[])
 
   function search(text: string) {
     return cars
@@ -34,6 +42,13 @@ export function CarList() {
         car.title.toLocaleLowerCase().includes(text.toLocaleLowerCase())
         || car.brand.toLocaleLowerCase().includes(text.toLocaleLowerCase())
       )
+  }
+
+  function goToEdit(id: string) {
+    navigation.navigate('Register', {
+      type: 'edit',
+      id,
+    });
   }
 
   const carsFilteredByTitle = text ? search(text) : cars
@@ -64,7 +79,18 @@ export function CarList() {
       <FlatList
         data={carsFilteredByTitle}
         keyExtractor={item => item["_id"]}
-        renderItem={({ item }) => <CarCard key={item.id} data={item} />}
+        renderItem={({ item }) =>
+          <ButtonCard onPress={() => goToEdit(item["_id"])}>
+            <DataSheet>
+              <Brand>{item.brand}</Brand>
+              <Title>{item.title}</Title>
+              <Age>Ano: {item.age}</Age>
+            </DataSheet>
+            <Amount>
+              <TextAmount>{adjustCurrency(item.price)}</TextAmount>
+            </Amount>
+          </ButtonCard>
+        }
         ListEmptyComponent={() => {
           if (loading) {
             return <Loading />
