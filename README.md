@@ -4,7 +4,7 @@
 É um aplicativo para gerenciar cadastros de carros
 
 
-![](https://github.com/willian-onuki/carManagement/tree/master/src/assets/app.gif)
+![](https://raw.githubusercontent.com/willian-onuki/carManagement/master/src/assets/app.gif)
 
 
 ## Stack utilizada
